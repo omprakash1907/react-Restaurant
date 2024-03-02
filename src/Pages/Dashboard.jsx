@@ -6,11 +6,13 @@ import offer1 from '../Assets/Images/offer1.jpg'
 import offer2 from '../Assets/Images/offer2.jpg'
 import offer3 from '../Assets/Images/offer3.jpg'
 import offer4 from '../Assets/Images/offer4.jpg'
+import Header from './Header'
 
-const Dashboard = () => {
+const Dashboard = ({isLoggedIn,setIsLoggedIn}) => {
   return (
     <>
-      <section className=' home position-relative pb-5'>
+      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <section className=' home bg-theme  position-relative pb-5'>
         <div className="bg-overlap position-absolute w-100 h-100  start-0  top-0 "></div>
         <div className=' container-fluid px-5  '>
           <div className="banner-img position-relative d-flex justify-content-center">
@@ -28,8 +30,8 @@ const Dashboard = () => {
       <section className='offers'>
         <div className="container">
           <div className="d-flex justify-content-between align-items-center  align-items-center ">
-              <div className="col-4">
-            <div className="d-flex justify-content-between align-items-center  align-items-center ">
+            <div className="col-4">
+              <div className="d-flex justify-content-between align-items-center  align-items-center ">
                 <img src={offer1} alt="" className='w-100 py-4' />
               </div>
             </div>
