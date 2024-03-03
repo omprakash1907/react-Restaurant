@@ -18,7 +18,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
   }
 
   return (
-    <header>
+    <header className=' position-sticky top-0 bg-white  w-100 shadow  ' style={{zIndex:'555'}}>
       <div className=' container  py-3 '>
         <div className="d-flex justify-content-between align-items-center ">
           <div className="logo col-2">
@@ -32,7 +32,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
               <li className='ms-4 '><Link to="/menu">MENU</Link></li>
               <li className='ms-4 '><Link to="">ABOUT</Link></li>
               <li className='ms-4 '><Link to="">GALLERY</Link></li>
-              <li className='ms-4 '><Link to="">CONTACT</Link></li>
+              <li className='ms-4 '><Link to="">CART</Link></li>
             </ul>
           </div>
           <div className="menu-right d-flex justify-content-between align-items-center col-4">
