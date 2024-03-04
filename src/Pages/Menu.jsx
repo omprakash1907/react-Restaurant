@@ -10,8 +10,10 @@ import swal from 'sweetalert'
 
 const Menu = ({ food, setFood, isLoggedIn, cart, setCart }) => {
 
-    const [orignalList, setOrignalList] = useState([])
     const [sortByPrice, setSortByPrice] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [originalList, setOriginalList] = useState([]);
+
 
     const nevigate = useNavigate()
 
@@ -25,6 +27,7 @@ const Menu = ({ food, setFood, isLoggedIn, cart, setCart }) => {
                 const querySnapshot = await getDocs(collection(db, 'product'))
                 const list = querySnapshot.docs.map((doc) => doc.data());
                 setFood(list);
+                setOriginalList(list);
             } catch (err) {
                 console.error('Error fetching dishes:', err);
                 alert('Error fetching dishes');
@@ -44,25 +47,35 @@ const Menu = ({ food, setFood, isLoggedIn, cart, setCart }) => {
             const user = auth.currentUser;
             const userEmail = user.email;
             let userCart = JSON.parse(localStorage.getItem(userEmail)) || [];
-    
+
             const existingItemIndex = userCart.findIndex((cartItem) => cartItem.id === item.id);
-    
+
             if (existingItemIndex !== -1) {
                 userCart[existingItemIndex].quantity += 1;
             } else {
                 userCart.push({ ...item, quantity: 1 });
             }
-    
+
             localStorage.setItem(userEmail, JSON.stringify(userCart));
-    
+
             setCart([...userCart]);
         } else {
             swal("Login First!", "You clicked the button!", "error");
             nevigate('/login');
         }
     };
-    
 
+    const handleSearch = (e) => {
+        const query = e.target.value.toLowerCase();
+        setSearchQuery(query);
+
+        if (query.trim() === '') {
+            setFood(originalList); // Reset to the original list
+        } else {
+            const filteredList = originalList.filter((item) => item.name.toLowerCase().includes(query));
+            setFood(filteredList);
+        }
+    };
 
     return (
         <>
@@ -77,10 +90,15 @@ const Menu = ({ food, setFood, isLoggedIn, cart, setCart }) => {
                 <div className="bg-overlap position-absolute w-100 h-100   start-0  top-0 "></div>
             </section>
             <div className="container py-5">
-                <div className="text-end mt-3">
-                    <button className='btn btn-danger  px-4 py-6 fs-6 text-white fw-bold ' onClick={handleSort}>
-                        Sort {sortByPrice ? <i className="ms-2 fa-regular fa-circle-up text-white"></i> : <i className="ms-2 text-white fa-regular fa-circle-down"></i>}
-                    </button>
+                <div className="text-end mt-3 d-flex justify-content-between align-items-center    w-100 ">
+                    <div className="mb-3 mt-3 col-6">
+                        <input type="text" className="form-control" placeholder="Search your food" value={searchQuery} onChange={handleSearch} />
+                    </div>
+                    <div>
+                        <button className='btn btn-danger  px-4  fs-6 text-white fw-bold ' onClick={handleSort}>
+                            Sort {sortByPrice ? <i className="ms-2 fa-regular fa-circle-up text-white"></i> : <i className="ms-2 text-white fa-regular fa-circle-down"></i>}
+                        </button>
+                    </div>
                 </div>
                 <div className="menu-list  ">
                     <div className="row ">
