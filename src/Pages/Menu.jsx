@@ -64,10 +64,6 @@ const Menu = ({ food, setFood, isLoggedIn, cart, setCart }) => {
     
 
 
-
-
-
-
     return (
         <>
             <section className='menu position-relative  '>

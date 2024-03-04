@@ -27,7 +27,7 @@ const Cart = ({ cart, setCart, isLoggedIn }) => {
                 });
             }
             setSubtotal(total);
-            setGrandTotal(total); // For now, assume grand total is same as subtotal
+            setGrandTotal(total); 
         };
 
         calculateTotals();
