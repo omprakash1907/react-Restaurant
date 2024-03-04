@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import logo from '../Assets/Images/logo.avif'
 import captcha from '../Assets/Images/recaptcha-logo.png'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../firebase'
+import swal from 'sweetalert'
 
-const Sign = () => {
+const Sign = ({ setIsLoggedIn }) => {
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
+
+    const nevigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -18,12 +21,14 @@ const Sign = () => {
                 const user = res.user;
                 console.log(user.email)
                 setIsLoggedIn(true)
+                swal("Login succesfull!", "You clicked the button!", "success");
                 nevigate('/')
                 // ...
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
+                swal("Login Unsuccesfull!", "You clicked the button!", "error");
                 // ..
             });
     }

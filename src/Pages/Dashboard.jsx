@@ -8,10 +8,9 @@ import offer3 from '../Assets/Images/offer3.jpg'
 import offer4 from '../Assets/Images/offer4.jpg'
 import Header from './Header'
 
-const Dashboard = ({isLoggedIn,setIsLoggedIn}) => {
+const Dashboard = ({isLoggedIn,setIsLoggedIn, name}) => {
   return (
     <>
-      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <section className=' home bg-theme  position-relative pb-5'>
         <div className="bg-overlap position-absolute w-100 h-100  start-0  top-0 "></div>
         <div className=' container-fluid px-5  '>
@@ -24,6 +23,15 @@ const Dashboard = ({isLoggedIn,setIsLoggedIn}) => {
             <img src={tomato} alt="" className='img-fluid position-absolute start-0 bottom-0 ' style={{ width: '250px' }} />
             <img src={onion} alt="" className='img-fluid position-absolute end-0 top-0 ' style={{ width: '250px' }} />
           </div>
+            <h5 className=' text-start position-relative text-white mt-3  ' style={{zIndex:'22'}}>
+             {
+              name ? (
+                <span className='text-white'>Hi, {name}</span>
+              ) : (
+                <span></span> 
+              )
+             } 
+            </h5>
 
         </div>
       </section>

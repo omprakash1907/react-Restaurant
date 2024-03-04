@@ -1,21 +1,28 @@
 import React from 'react'
 import logo from '../Assets/Images/logo.avif'
 import delivery from '../Assets/Images/delivery.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from '../firebase'
+import swal from 'sweetalert'
 
-const Header = ({ isLoggedIn, setIsLoggedIn }) => {
+const Header = ({ isLoggedIn, setIsLoggedIn, name }) => {
+
+  const nevigate = useNavigate()
 
   const handleLogout = () => {
     signOut(auth)
     .then((res)=>{
       setIsLoggedIn(false)
+      localStorage.removeItem('token')
+      swal("Login Out succesfull!", "You clicked the button!", "success");
     })
     .catch((err)=>{
       console.log('error')
     })
   }
+
+
 
   return (
     <header className=' position-sticky top-0 bg-white  w-100 shadow  ' style={{zIndex:'555'}}>
@@ -31,8 +38,8 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
               <li className='ms-4 '><Link to="/">HOME</Link></li>
               <li className='ms-4 '><Link to="/menu">MENU</Link></li>
               <li className='ms-4 '><Link to="">ABOUT</Link></li>
+              <li className='ms-4 '><Link to="/cart">CART</Link></li>
               <li className='ms-4 '><Link to="">GALLERY</Link></li>
-              <li className='ms-4 '><Link to="">CART</Link></li>
             </ul>
           </div>
           <div className="menu-right d-flex justify-content-between align-items-center col-4">

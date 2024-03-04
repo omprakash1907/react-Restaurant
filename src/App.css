@@ -197,3 +197,39 @@ code {
   background-size: contain;
   background-position: center;
 } */
+
+.quantity-field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px; 
+  height: 40px;
+  margin: 0 auto;    
+}
+
+.value-button{ 
+  border: 1px solid #ddd;
+  margin: 0px;
+  width: 40px;
+  height: 100%;   
+  padding: 0;
+  background: #eee; 
+  outline: none;
+  cursor: pointer;
+}
+
+.quantity-field .number{
+  display: inline-block;
+  text-align: center;
+  border: none;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin: 0px;
+  width: 40px;
+  height: 100%;
+  line-height: 40px;
+  font-size: 11pt;
+  box-sizing: border-box; 
+  background: white;
+  font-family: calibri;
+}

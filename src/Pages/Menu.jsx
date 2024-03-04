@@ -1,55 +1,75 @@
 import React, { useEffect, useState } from 'react'
 import Header from './Header'
 import leaf from '../Assets/Images/leaf.png'
-import { collection, doc, getDoc, getDocs, getFirestore } from 'firebase/firestore'
-import { app } from '../firebase'
-// import { db } from '../firebase'
+import { addDoc, collection, doc, getDoc, getDocs, getFirestore, setDoc, updateDoc } from 'firebase/firestore'
+import { app, auth } from '../firebase'
+import { useNavigate } from 'react-router-dom'
+import swal from 'sweetalert'
 
 
-const Menu = () => {
 
-    const [food, setFood] = useState([])
+const Menu = ({ food, setFood, isLoggedIn, cart, setCart }) => {
+
+    const [orignalList, setOrignalList] = useState([])
     const [sortByPrice, setSortByPrice] = useState(false);
+
+    const nevigate = useNavigate()
 
     const db = getFirestore(app)
 
 
-   
 
-
-
-    const fetchList = async () => {
-        try {
-            const querySnapshot = await getDocs(collection(db, 'product'))
-            console.log(querySnapshot);
-            var list = []
-            querySnapshot.forEach((doc) => {
-                var data = doc.data()
-                list.push({ id: doc.id, ...data })
-            });
-            setFood(list)
-        } catch (error) {
-            console.error("Error fetching data: ", error);
+    useEffect(() => {
+        const fetch = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'product'))
+                const list = querySnapshot.docs.map((doc) => doc.data());
+                setFood(list);
+            } catch (err) {
+                console.error('Error fetching dishes:', err);
+                alert('Error fetching dishes');
+            }
         }
-    }
-    fetchList()
-
-    console.log(food)
+        fetch();
+    }, [db, setFood])
 
     const handleSort = () => {
-        if (sortByPrice) {
-            const sorted = [...food].sort((a, b) => a.price - b.price);
-            setFood(sorted);
-        } else {
-            const sorted = [...food].sort((a, b) => b.price - a.price);
-            setFood(sorted);
-        }
+        const sorted = sortByPrice ? [...food].sort((a, b) => a.price - b.price) : [...food].sort((a, b) => b.price - a.price);
+        setFood(sorted);
         setSortByPrice(!sortByPrice);
     }
 
+    const HandleAdd = async (item) => {
+        if (isLoggedIn) {
+            const user = auth.currentUser;
+            const userEmail = user.email;
+            let userCart = JSON.parse(localStorage.getItem(userEmail)) || [];
+    
+            const existingItemIndex = userCart.findIndex((cartItem) => cartItem.id === item.id);
+    
+            if (existingItemIndex !== -1) {
+                userCart[existingItemIndex].quantity += 1;
+            } else {
+                userCart.push({ ...item, quantity: 1 });
+            }
+    
+            localStorage.setItem(userEmail, JSON.stringify(userCart));
+    
+            setCart([...userCart]);
+        } else {
+            swal("Login First!", "You clicked the button!", "error");
+            nevigate('/login');
+        }
+    };
+    
+
+
+
+
+
+
     return (
         <>
-            <Header />
             <section className='menu position-relative  '>
                 <div className="bradcamp bg-theme py-5 ">
                     <div className="position-relative z-3 container  text-center  " style={{ zIndex: '2' }}>
@@ -81,7 +101,7 @@ const Menu = () => {
                                                 </div>
                                                 <p className="card-text">{item.desc}</p>
                                                 <div className="d-flex justify-content-between  align-items-center ">
-                                                    <a href="#" className="btn btn-danger text-white fw-bold ">Add to Cart</a>
+                                                    <a href="#" className="btn btn-danger text-white fw-bold " onClick={() => HandleAdd(food[id])}>Add to Cart</a>
                                                     <div className="d-flex justify-content-between  align-items-center">
                                                         <i class="fa-solid fa-motorcycle text-danger me-2"></i>
                                                         <span>25 min</span>

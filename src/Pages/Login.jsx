@@ -3,7 +3,8 @@ import logo from '../Assets/Images/logo.avif'
 import captcha from '../Assets/Images/recaptcha-logo.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { auth, provider } from '../firebase'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
+import {  signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
+import swal from 'sweetalert'
 
 const Login = ({ setIsLoggedIn }) => {
 
@@ -16,11 +17,14 @@ const Login = ({ setIsLoggedIn }) => {
         signInWithPopup(auth, provider)
             .then((result) => {
                 const user = result.user;
+                localStorage.setItem("token", "true");
                 console.log(user.displayName)
                 setIsLoggedIn(true)
+                swal("Login succesfull!", "You clicked the button!", "success");
                 nevigate('/')
             }).catch((error) => {
-                console.log('Login Unsuccesfull')
+                alert('Login Unsuccesfull')
+                swal("Login Unsuccesfull!", "You clicked the button!", "error");
             });
     }
 
@@ -28,17 +32,18 @@ const Login = ({ setIsLoggedIn }) => {
         e.preventDefault()
         signInWithEmailAndPassword(auth, email, password)
             .then((res) => {
-                // Signed up 
                 const user = res.user;
+                localStorage.setItem("token", "true");
                 console.log(user.email)
                 setIsLoggedIn(true)
+                swal("Login succesfull!", "You clicked the button!", "success");
                 nevigate('/')
-                // ...
+                
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                // ..
+                swal("Login Unsuccesfull!", "You clicked the button!", "error");
             });
     }
 
