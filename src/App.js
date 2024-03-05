@@ -16,7 +16,6 @@ import UserProtected from './protectedRoute/UserProtected';
 
 
 function App() {
-
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [LoggedInUser, setLoggedInUser] = useState(null);
   const [food, setFood] = useState([])
@@ -38,8 +37,6 @@ function App() {
       }
     })
   }, [])
-
-
 
   useEffect(() => {
     fetchList()
