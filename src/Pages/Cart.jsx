@@ -10,13 +10,13 @@ import { onAuthStateChanged } from 'firebase/auth'
 
 const Cart = ({ cart, setCart, isLoggedIn }) => {
 
-    const [data, setData] = useState()
+    const [data, setData] = useState(cart)
     const [subtotal, setSubtotal] = useState(0);
     const [grandTotal, setGrandTotal] = useState(0);
     const [noRecord, setNoRecord] = useState(false)
     const nevigate = useNavigate()
 
-
+    // console.log(data);
 
     useEffect(() => {
         const calculateTotals = () => {
@@ -32,6 +32,14 @@ const Cart = ({ cart, setCart, isLoggedIn }) => {
 
         calculateTotals();
     }, [data]);
+
+    useEffect(()=>{
+        if(data.length === 0 ){
+            setNoRecord(true)
+        }else{
+            setNoRecord(false)
+        }
+    }, [data])
 
 
  
@@ -123,7 +131,7 @@ const Cart = ({ cart, setCart, isLoggedIn }) => {
                                 noRecord ? (
                                     <tr>
                                         <td className='text-center fw-bold pe-0 py-3 fs-4 text-danger' colSpan={5}>
-                                            cart is feeling a bit lonely</td>
+                                            cart is Empty</td>
                                     </tr>
                                 ) : (
                                     data && data.map((item, index) => {
