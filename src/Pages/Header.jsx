@@ -6,7 +6,7 @@ import { signOut } from 'firebase/auth'
 import { auth } from '../firebase'
 import swal from 'sweetalert'
 
-const Header = ({ isLoggedIn, setIsLoggedIn, name }) => {
+const Header = ({ isLoggedIn, setIsLoggedIn, name, cart }) => {
 
   const nevigate = useNavigate()
 
@@ -46,7 +46,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn, name }) => {
             <button type="button" class="btn btn-danger  position-relative rounded-circle ">
               <i class="fa-solid fa-utensils text-white "></i>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark  text-white ">
-                9+
+                {cart.length}+
               </span>
             </button>
             <div className="delivery">

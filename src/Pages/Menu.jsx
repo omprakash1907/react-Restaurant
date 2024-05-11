@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Header from './Header'
 import leaf from '../Assets/Images/leaf.png'
 import { addDoc, collection, doc, getDoc, getDocs, getFirestore, setDoc, updateDoc } from 'firebase/firestore'
 import { app, auth } from '../firebase'
@@ -115,7 +114,7 @@ const Menu = ({ food, setFood, isLoggedIn, cart, setCart }) => {
                                                 </div>
                                                 <p className="card-text">{item.desc}</p>
                                                 <div className="d-flex justify-content-between  align-items-center ">
-                                                    <a href="#" className="btn btn-danger text-white fw-bold " onClick={() => HandleAdd(food[id])}>Add to Cart</a>
+                                                    <button className="btn btn-danger text-white fw-bold " onClick={() => HandleAdd(food[id])}>Add to Cart</button>
                                                     <div className="d-flex justify-content-between  align-items-center">
                                                         <i class="fa-solid fa-motorcycle text-danger me-2"></i>
                                                         <span>25 min</span>

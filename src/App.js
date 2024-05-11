@@ -59,7 +59,7 @@ function App() {
   return (
     <>
       <BrowserRouter >
-        <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} name={name} />
+        <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} name={name} cart={cart} />
         <Routes>
           <Route path="/" element={<Dashboard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} name={name} />} ></Route>
           <Route path="/menu" element={<Menu food={food} setFood={setFood} isLoggedIn={isLoggedIn} cart={cart} setCart={setCart} />} ></Route>
